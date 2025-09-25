@@ -27,6 +27,7 @@ async function run() {
 
         const myCoffeeDB = client.db("mycoffeeDB");
         const myCollection = myCoffeeDB.collection("mycollection");
+        const myCol = myCoffeeDB.collection("users")
 
         app.get('/product', async(req, res) => {
             
@@ -63,6 +64,14 @@ async function run() {
                 $set:coffeeData
             }
             const result = await myCollection.updateOne(query,updateDoc,options)
+            res.send(result)
+        })
+
+        // user data go to server site
+        app.post('/signIn' ,async(req, res) => {
+            const user = req.body
+            console.log(user)
+            const result = await myCol.insertOne(user)
             res.send(result)
         })
         // Send a ping to confirm a successful connection
