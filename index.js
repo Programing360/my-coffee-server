@@ -29,48 +29,49 @@ async function run() {
         const myCollection = myCoffeeDB.collection("mycollection");
         const myCol = myCoffeeDB.collection("users")
 
-        app.get('/product', async(req, res) => {
-            
+        app.get('/product', async (req, res) => {
+
             const data = myCollection.find()
-            const result =await data.toArray()
+            const result = await data.toArray()
             res.send(result)
         })
         app.post('/product', async (req, res) => {
             const user = req.body
-            console.log(user)
             const result = await myCollection.insertOne(user)
             res.send(result)
         })
-        app.get('/product/:id', async(req, res) => {
+        app.get('/product/:id', async (req, res) => {
             const id = req.params.id
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await myCollection.findOne(query)
             res.send(result)
         })
-        app.delete('/product/:id', async(req,res) => {
+        app.delete('/product/:id', async (req, res) => {
             const id = req.params.id
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await myCollection.deleteOne(query)
-            console.log(result)
             res.send(result)
         })
 
-        app.put('/product/:id', async(req,res) => {
+        app.put('/product/:id', async (req, res) => {
             const id = req.params.id
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const options = { upsert: true };
             const coffeeData = req.body
             const updateDoc = {
-                $set:coffeeData
+                $set: coffeeData
             }
-            const result = await myCollection.updateOne(query,updateDoc,options)
+            const result = await myCollection.updateOne(query, updateDoc, options)
             res.send(result)
         })
 
         // user data go to server site
-        app.post('/signIn' ,async(req, res) => {
+        app.get('/signIn', async(req, res) => {
+            const result = await myCol.find().toArray()
+            res.send(result)
+        })
+        app.post('/signIn', async (req, res) => {
             const user = req.body
-            console.log(user)
             const result = await myCol.insertOne(user)
             res.send(result)
         })
